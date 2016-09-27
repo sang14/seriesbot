@@ -39,7 +39,7 @@ def post_facebook_message(fbid,message_text):
 	            "template_type":"generic",
 	            "elements":[
 	              {
-	                "title":text,
+	                "title":"ok",
 	                "item_url":"whateever",
 	                "image_url":image_url,
 	                "subtitle":"Nostalgia",
@@ -66,7 +66,7 @@ def post_facebook_message(fbid,message_text):
 
 	#response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":text}})
 	requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg_generic)
-	print status.json()
+	
 	
 
 
