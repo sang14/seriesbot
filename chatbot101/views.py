@@ -39,7 +39,7 @@ def find(title="girls"):
 	data = json.loads(resp)
 	scoped_data=data["summary"]
 	
-	return "About the show: %s"%(scoped_data)
+	return scoped_data
 
 class MyChatBotView(generic.View):
     def get(self,request,*args,**kwargs):
