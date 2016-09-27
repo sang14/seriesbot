@@ -41,7 +41,7 @@ def post_facebook_message(fbid,message_text):
 	              {
 	                "title":"ok",
 	                "item_url":"whateever",
-	                "image_url":image_url,
+	                "image_url":"ok",
 	                "subtitle":"Nostalgia",
 	                "buttons":[
 	                  {
