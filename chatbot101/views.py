@@ -15,15 +15,25 @@ VERIFY_TOKEN="27thSeptember2016"
 PAGE_ACCESS_TOKEN="EAAPmlEHMYHgBAFRvX0h5a6Pcw0ZBRWYUkKTNQGUFnjf5vMvaskRue5ZAzAOZBob8R5e07FB723ZBaPsFgaERCE3x1qOY5sZB78lB7zlaLOFB19mTyFNUJJu4eg4HSXXyTLEpubYS64I3kkg5Eua7P7MAAELZCRn6v48Y3Yt5TePQZDZD"
 
 def index(request):
-	return HttpResponse('hello')
+	output_text=find()
+	return HttpResponse(output_text,content_type='application/json')
 
 def post_facebook_message(fbid,message_text):
 	post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
+	ouput_text=find(message_text)
 	response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":message_text}})
 	status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
 	print status.json()
 
 
+
+def find(title="girls"):
+	url="http://api.tvmaze.com/singlesearch/shows?q=%s"%(title)
+	resp = requests.get(url=url).text
+	data = json.loads(resp)
+	scoped_data=data["summary"]
+	
+	return "About the show: %s name of the show: %s"%(scoped_data)
 
 class MyChatBotView(generic.View):
     def get(self,request,*args,**kwargs):
