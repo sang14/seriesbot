@@ -27,7 +27,7 @@ def post_facebook_message(fbid,message_text):
 	except KeyError:
 		text = ''
 
-	response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":find(text)}})
+	response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":text}})
 	status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
 	print status.json()
 
