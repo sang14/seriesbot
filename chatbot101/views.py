@@ -20,8 +20,14 @@ def index(request):
 
 def post_facebook_message(fbid,message_text):
 	post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
-	
-	response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":find(message_text)}})
+	text=find(message_text)
+	try:
+		if len(text) > 315:
+            text = text[:315] + ' ...'
+    except KeyError:
+        text = ''
+
+	response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":find(text)}})
 	status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
 	print status.json()
 
