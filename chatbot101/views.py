@@ -12,7 +12,7 @@ import requests
 # Create your views here.
 VERIFY_TOKEN="27thSeptember2016"
 
-PAGE_ACCESS_TOKEN=""
+PAGE_ACCESS_TOKEN="EAAPmlEHMYHgBAFRvX0h5a6Pcw0ZBRWYUkKTNQGUFnjf5vMvaskRue5ZAzAOZBob8R5e07FB723ZBaPsFgaERCE3x1qOY5sZB78lB7zlaLOFB19mTyFNUJJu4eg4HSXXyTLEpubYS64I3kkg5Eua7P7MAAELZCRn6v48Y3Yt5TePQZDZD"
 
 def index(request):
 	return HttpResponse('hello')
