@@ -20,7 +20,7 @@ def index(request):
 
 def post_facebook_message(fbid,message_text):
 	post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
-	text,image_url,url_info=find(message_text)
+	text,image,url_info=find(message_text)
 
 	try:
 		if len(text) > 315:
@@ -40,8 +40,8 @@ def post_facebook_message(fbid,message_text):
 	            "elements":[
 	              {
 	                "title":"ok",
-	                "item_url":"whateever",
-	                "image_url":"ok",
+	                "item_url":url_info,
+	                "image_url":image,
 	                "subtitle":"Nostalgia",
 	                "buttons":[
 	                  {
