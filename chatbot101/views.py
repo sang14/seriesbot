@@ -39,7 +39,7 @@ def post_facebook_message(fbid,message_text):
 	            "template_type":"generic",
 	            "elements":[
 	              {
-	                "title":"ok",
+	                "title":text,
 	                "item_url":url_info,
 	                "image_url":image,
 	                "subtitle":"Nostalgia",
