@@ -20,16 +20,53 @@ def index(request):
 
 def post_facebook_message(fbid,message_text):
 	post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
-	text=find(message_text)
+	text,image_info,url_in=find(message_text)
+
 	try:
 		if len(text) > 315:
 			text = text[:315] + ' ...'
 	except KeyError:
 		text = ''
 
-	response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":text}})
-	status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
-	print status.json()
+	response_msg_generic={
+	    "recipient":{
+	        "id":fbid 
+	      },
+	      "message":{
+	        "attachment":{
+	          "type":"template",
+	          "payload":{
+	            "template_type":"generic",
+	            "elements":[
+	              {
+	                "title":text,
+	                "item_url":url_in,
+	                "image_url":image_info,
+	                "subtitle":"Nostalgia",
+	                "buttons":[
+	                  {
+	                    "type":"web_url",
+	                    "url":url_in,
+	                    "title":"View Website"
+	                  },
+	                  {
+	                    "type":"postback",
+	                    "title":"Start Chatting",
+	                    "payload":"DEVELOPER_DEFINED_PAYLOAD"
+	                  }              
+	                ]
+	              }
+	            ]
+	          }
+	        }
+	      }
+	
+
+	}
+
+	#response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":text}})
+	requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg_generic)
+	
 
 
 
@@ -38,8 +75,10 @@ def find(title="girls"):
 	resp = requests.get(url=url).text
 	data = json.loads(resp)
 	scoped_data=data["summary"]
+	image_url=data["image"]["medium"]
+	url_info=data['url']
 	
-	return scoped_data
+	return scoped_data,image_url,url_info
 
 class MyChatBotView(generic.View):
     def get(self,request,*args,**kwargs):
