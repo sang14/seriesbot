@@ -65,8 +65,8 @@ def post_facebook_message(fbid,message_text):
 	}
 
 	#response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":text}})
-	requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg_generic)
-	
+	status=requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg_generic)
+	print status.json()
 	
 
 
