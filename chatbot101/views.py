@@ -76,7 +76,7 @@ def handle_postback(fbid,payload):
 	if payload=='Another Show':
 		output_text='What other shows you want to know about ? '
 
-	response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":text}})
+	response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":output_text}})
 	status=requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
 	 
 
