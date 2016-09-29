@@ -29,37 +29,37 @@ def post_facebook_message(fbid,message_text):
 		text = ''
 
 	response_msg_generic={
-	    "recipient":{
-	        "id":fbid 
-	      },
-	      "message":{
-	        "attachment":{
-	          "type":"template",
-	          "payload":{
-	            "template_type":"generic",
-	            "elements":[
-	              {
-	                "title":text,
-	                "item_url":url_info,
-	                "image_url":image,
-	                "subtitle":"Nostalgia",
-	                "buttons":[
-	                  {
-	                    "type":"web_url",
-	                    "url":url_info,
-	                    "title":"View Website"
-	                  },
-	                  {
-	                    "type":"postback",
-	                    "title":"Start Chatting",
-	                    "payload":"Another Show"
-	                  }              
-	                ]
-	              }
-	            ]
-	          }
-	        }
-	      }
+		"recipient":{
+			"id":fbid 
+		  },
+		  "message":{
+			"attachment":{
+			  "type":"template",
+			  "payload":{
+				"template_type":"generic",
+				"elements":[
+				  {
+					"title":text,
+					"item_url":url_info,
+					"image_url":image,
+					"subtitle":"Nostalgia",
+					"buttons":[
+					  {
+						"type":"web_url",
+						"url":url_info,
+						"title":"View Website"
+					  },
+					  {
+						"type":"postback",
+						"title":"Start Chatting",
+						"payload":"Another Show"
+					  }              
+					]
+				  }
+				]
+			  }
+			}
+		  }
 	
 
 	}
@@ -71,14 +71,14 @@ def post_facebook_message(fbid,message_text):
 	
 
 def handle_postback(fbid,payload):
-    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
-    
-    if payload=='Another Show':
-    	output_text='What other shows you want to know about ? '
+	post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
+	
+	if payload=='Another Show':
+		output_text='What other shows you want to know about ? '
 
-    response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":text}})
-    status=requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
-     
+	response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":text}})
+	status=requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
+	 
 
 
 
@@ -97,31 +97,35 @@ def find(title="girls"):
 	return scoped_data,image_url,url_info
 
 class MyChatBotView(generic.View):
-    def get(self,request,*args,**kwargs):
-        if self.request.GET['hub.verify_token']==VERIFY_TOKEN:
-            return HttpResponse(self.request.GET['hub.challenge'])
-        else:
-            return HttpResponse('oops invalid token')
+	def get(self,request,*args,**kwargs):
+		if self.request.GET['hub.verify_token']==VERIFY_TOKEN:
+			return HttpResponse(self.request.GET['hub.challenge'])
+		else:
+			return HttpResponse('oops invalid token')
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self,request,*args,**kwargs):
-        return generic.View.dispatch(self,request,*args,**kwargs)
+	@method_decorator(csrf_exempt)
+	def dispatch(self,request,*args,**kwargs):
+		return generic.View.dispatch(self,request,*args,**kwargs)
 
-    def post(self,request,*args,**kwargs):
+	def post(self,request,*args,**kwargs):
 		incoming_message=json.loads(self.request.body.decode('utf-8'))
 		print incoming_message
 
 		for entry in incoming_message['entry']:
 			for message in entry['messaging']:
 				try:
-                    if 'postback' in message:
-                        handle_postback(message['sender']['id'],message['postback']['payload'])
-                    else:
-                        pass
+					if 'postback' in message:
+						handle_postback(message['sender']['id'],message['postback']['payload'])
+					else:
+						pass
+				except Exception as e:
+					print e
+				#print message
 				try:
 					sender_id = message['sender']['id']
 					message_text = message['message']['text']
 					post_facebook_message(sender_id,message_text) 
+					
 				except Exception as e:
 					print e
 					pass
