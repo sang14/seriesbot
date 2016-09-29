@@ -113,7 +113,11 @@ class MyChatBotView(generic.View):
 
 		for entry in incoming_message['entry']:
 			for message in entry['messaging']:
-				print message
+				try:
+                    if 'postback' in message:
+                        handle_postback(message['sender']['id'],message['postback']['payload'])
+                    else:
+                        pass
 				try:
 					sender_id = message['sender']['id']
 					message_text = message['message']['text']
