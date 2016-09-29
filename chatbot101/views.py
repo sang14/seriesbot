@@ -21,6 +21,10 @@ def index(request):
 def post_facebook_message(fbid,message_text):
 	post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
 	text,image,url_info=find(message_text)
+	if text=='NULL':
+		text="No show with such name "
+	else:
+		pass
 
 	try:
 		if len(text) > 315:
@@ -63,6 +67,8 @@ def post_facebook_message(fbid,message_text):
 	
 
 	}
+	response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":text}})
+	requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
 	response_msg_generic=json.dumps(response_msg_generic)
 
 	#response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":text}})
