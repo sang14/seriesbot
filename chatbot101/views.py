@@ -74,7 +74,14 @@ def handle_postback(fbid,payload):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     
     if payload=='Another Show':
-        post_facebook_message(fbid,'foo')
+    	output_text='What other shows you want to know about ? '
+
+    response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":text}})
+    status=requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
+     
+
+
+
 
 
 
