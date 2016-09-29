@@ -52,7 +52,7 @@ def post_facebook_message(fbid,message_text):
 	                  {
 	                    "type":"postback",
 	                    "title":"Start Chatting",
-	                    "payload":"DEVELOPER_DEFINED_PAYLOAD"
+	                    "payload":"Another Show"
 	                  }              
 	                ]
 	              }
@@ -69,6 +69,13 @@ def post_facebook_message(fbid,message_text):
 	status=requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg_generic)
 	print status.json()
 	
+
+def handle_postback(fbid,payload):
+    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
+    
+    if payload=='Another Show':
+        post_facebook_message(fbid,'foo')
+
 
 
 
